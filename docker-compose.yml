@@ -1,0 +1,37 @@
+version: "3.6"
+services:
+  postgres:
+    image: "postgres:11"
+    restart: always
+    ports:
+      - "35432:5432"
+    networks:
+      - webnet
+    env_file: .env
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  server:
+    platform: "linux/amd64"
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    depends_on:
+      - postgres
+    command: sh docker/server.sh
+    networks:
+      - webnet
+    ports:
+      - "127.0.0.1:8000:8000"
+    environment:
+      DJANGO_POSTGRES_HOST: postgres
+      DJANGO_POSTGRES_PORT: 5432
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+networks:
+  webnet:

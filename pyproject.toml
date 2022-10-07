@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "test-project"
+version = "0.1.0"
+description = ""
+authors = ["skywalker <evgenyyanaki@yandex.ru>"]
+readme = "README.md"
+packages = []
+
+[tool.poetry.dependencies]
+python = "^3.8"
+Django = "^2.2"
+Pillow = "^9.2.0"
+python-dotenv = "^0.21.0"
+psycopg2-binary = "^2.9.4"
+djangorestframework = "3.13.1"
+django-filter = "2.4.0"
+drf-rw-serializers = "^1.0.5"
+drf-yasg = "^1.21.4"
+django-http-referrer-policy = "^1.1.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

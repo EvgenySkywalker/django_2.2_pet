@@ -1,0 +1,6 @@
+from typing import Final
+
+NAME_MAX_LENGTH: Final = 255
+CONTENT_MAX_LENGTH: Final = 4096
+PRICE_MAX_DIGITS: Final = 10
+PRICE_MAX_DECIMAL_PLACES: Final = 2
