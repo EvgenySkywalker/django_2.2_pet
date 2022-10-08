@@ -1,6 +1,7 @@
 import requests
 from django.contrib import admin
 from django.core.exceptions import ValidationError
+from django.db import transaction
 from django.http import HttpResponseRedirect
 from django.urls import reverse, path
 from django.utils.html import format_html
@@ -22,6 +23,8 @@ def approve_view(request, object_id):
     #instance.approved_at = localtime()
     # Выполнял задание на windows, из-за проблем с докером не смог поставить USE_TZ=True, поэтому как есть (
     instance.approved_at = now()
+    #response 404
+    #with transaction.atomic():
     instance.save()
     response = requests.post(
         'https://webhook.site/36693e00-8f59-4f7b-9a85-1d1e7ddde4d4',
@@ -31,7 +34,8 @@ def approve_view(request, object_id):
             'date': instance.approved_at.isoformat(),
         },
     )
-    print(response.status_code)
+    # if response.status_code != 200:
+    #     raise ValidationError(f'Request error')
     return HttpResponseRedirect(redirect_to='/admin/main/order/')
 
 
