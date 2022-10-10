@@ -8,6 +8,6 @@ class PaymentCreate(generics.CreateAPIView):
     serializer_class = PaymentSerializer
     write_serializer_class = PaymentWriteSerializer
 
-    @swagger_auto_schema(request_body=write_serializer_class)
+    @swagger_auto_schema(request_body=write_serializer_class, responses={201: serializer_class()})
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)

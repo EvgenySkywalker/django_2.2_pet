@@ -8,6 +8,6 @@ class OrderCreate(generics.CreateAPIView):
     serializer_class = OrderSerializer
     write_serializer_class = OrderWriteSerializer
 
-    @swagger_auto_schema(request_body=write_serializer_class)
+    @swagger_auto_schema(request_body=write_serializer_class, responses={201: serializer_class()})
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)
