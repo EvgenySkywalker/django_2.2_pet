@@ -2,6 +2,7 @@ from django.db import transaction
 from rest_framework import serializers
 from rest_framework.exceptions import NotFound
 
+from server.apps.main.constants.order import STATUS_CREATED
 from server.apps.main.models import Order, Product, OrderProduct
 
 
@@ -26,7 +27,7 @@ class OrderWriteSerializer(serializers.ModelSerializer):
             raise NotFound(f'Can`t find products {unknown_products}')
         with transaction.atomic():
             order = Order.objects.create(
-                status='created',
+                status=STATUS_CREATED,
                 total_amount=sum(product.price for product in products),
             )
             order_product_list = [OrderProduct(order_id=order.id, product_id=product.id) for product in products]

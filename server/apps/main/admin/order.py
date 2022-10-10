@@ -8,6 +8,8 @@ from django.utils.html import format_html
 from django.utils.timezone import now
 
 from server.apps.main.admin.inlines import OrderProductInline
+from server.apps.main.constants.order import STATUS_APPROVED
+from server.apps.main.constants.payment import STATUS_SUCCESS
 from server.apps.main.models import Order, OrderProduct, Product
 
 
@@ -19,7 +21,7 @@ def approve_view(request, object_id):
     total_amount = sum(product.price for product in products)
     if total_amount != instance.total_amount:
         raise ValidationError(f'Total amount has changed before={instance.total_amount}, now={total_amount}')
-    instance.status = 'approved'
+    instance.status = STATUS_APPROVED
     #instance.approved_at = localtime()
     # Выполнял задание на windows, из-за проблем с докером не смог поставить USE_TZ=True, поэтому как есть (
     instance.approved_at = now()
@@ -77,7 +79,7 @@ class OrderAdmin(admin.ModelAdmin):
 
     def approve(self, obj):
         # не смог решить что лучше, указать индексами или литералами, остановился на последнем
-        if obj.payment is None or obj.payment.status != 'success' or obj.status == 'approved':
+        if obj.payment is None or obj.payment.status != STATUS_SUCCESS or obj.status == STATUS_APPROVED:
             return '-'
         view_name = "admin:{}_{}_approve".format(obj._meta.app_label, obj._meta.model_name)
         link = reverse(view_name, args=[obj.pk])

@@ -1,9 +1,13 @@
 from typing import Final
 
+STATUS_PAID = 'paid'
+STATUS_CREATED = 'created'
+STATUS_APPROVED = 'approved'
+
 STATUS_CHOICES = (
-    ('approved', 'Подтвержден'),
-    ('created', 'Создан'),
-    ('paid', 'Оплачен'),
+    (STATUS_APPROVED, 'Подтвержден'),
+    (STATUS_CREATED, 'Создан'),
+    (STATUS_PAID, 'Оплачен'),
 )
 
 STATUS_MAX_LENGTH: Final = len(max([value for value, _ in STATUS_CHOICES], key=len))

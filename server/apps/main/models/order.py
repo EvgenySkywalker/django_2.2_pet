@@ -3,7 +3,7 @@ import uuid
 from django.db import models
 
 from server.apps.main.constants.order import STATUS_MAX_LENGTH, TOTAL_MAX_DECIMAL_PLACES, TOTAL_MAX_DIGITS, \
-    STATUS_CHOICES
+    STATUS_CHOICES, STATUS_APPROVED
 
 
 class Order(models.Model):
@@ -21,8 +21,8 @@ class Order(models.Model):
         constraints = [
             models.CheckConstraint(
                 check=models.Q(
-                    models.Q(status='approved') & models.Q(approved_at__isnull=False) & models.Q(payment__isnull=False) |
-                    ~models.Q(status='approved') & models.Q(approved_at__isnull=True)
+                    models.Q(status=STATUS_APPROVED) & models.Q(approved_at__isnull=False) & models.Q(payment__isnull=False) |
+                    ~models.Q(status=STATUS_APPROVED) & models.Q(approved_at__isnull=True)
                 ),
                 name='main_order_approved_at_only_for_approved',
             ),
